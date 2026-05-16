@@ -2,12 +2,14 @@ import cv2
 from gestures.detector import HandDetector
 from gestures.recognizer import GestureRecognizer
 from gestures.smoother import GestureSmoother
+from gestures.state_machine import StateMachine
 import time
 
 
 detector = HandDetector()
 recognizer = GestureRecognizer()
 smoother = GestureSmoother(5)
+sm = StateMachine()
 
 detector.start()
 
@@ -35,6 +37,10 @@ while True:
         stableGestures = []
     else:
         stableGestures = smoother.update(gestures)
+
+    action = sm.update(stableGestures, hands)
+    if action:
+        print(action)
 
     for side in ["left", "right"]:
         if hands[side]:
