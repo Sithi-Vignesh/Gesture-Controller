@@ -4,7 +4,7 @@ from mediapipe.tasks import python as mp_python
 from mediapipe.tasks.python import vision
 
 from config import (
-    CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT, MAX_HANDS, DETECTION_CONFIDENCE, TRACKING_CONFIDENCE
+    CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT,FPS_TARGET, MAX_HANDS, DETECTION_CONFIDENCE, TRACKING_CONFIDENCE
 )
 
 class HandDetector:
@@ -24,6 +24,7 @@ class HandDetector:
     def start(self):
         self._cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
         self._cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
+        self._cap.set(cv2.CAP_PROP_FPS, FPS_TARGET)
         if not self._cap.isOpened():
             raise RuntimeError("Cannot open camera. Check if another app is using it.")
         
@@ -46,7 +47,7 @@ class HandDetector:
         result = {"left": None, "right": None, "frame": frame, "ok": True}
 
         for hand_landmarks, handedness in zip(results.hand_landmarks, results.handedness):
-            label = handedness[0].category_name.lower()
+            label = "left" if handedness[0].category_name.lower() == "left" else "right"
             landmarks = [{"x": lm.x, "y": lm.y, "z": lm.z} for lm in hand_landmarks]
             result[label] = landmarks
 
