@@ -5,7 +5,6 @@ from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
 import time
 
-
 detector = HandDetector()
 recognizer = GestureRecognizer()
 smoother = GestureSmoother(5)
@@ -42,19 +41,32 @@ while True:
     if action:
         print(action)
 
+    dot_color = {"left": (0, 255, 0), "right": (0, 255, 0)}
+    line_color = {"left": (255, 255, 255), "right": (255, 255, 255)}
+
+    if "left_fist" in stableGestures:
+        dot_color["left"] = (255, 0, 0)
+        line_color["left"] = (255, 0, 0)
+    if "right_fist" in stableGestures:
+        dot_color["right"] = (0, 255, 255)
+        line_color["right"] = (0, 255, 255)
+    if "right_pinch" in stableGestures:
+        dot_color["right"] = (0, 0, 255)
+        line_color["right"] = (0, 0, 255)
+
     for side in ["left", "right"]:
         if hands[side]:
             for point in hands[side]:
                 cx = int(point["x"] * 640)
                 cy = int(point["y"] * 480)
-                cv2.circle(frame, (cx, cy), 4, (0, 255, 0), -1)
+                cv2.circle(frame, (cx, cy), 4, dot_color[side], -1)
 
             for start, end in connections:
                 x1 = int(hands[side][start]["x"] * 640)
                 y1 = int(hands[side][start]["y"] * 480)
                 x2 = int(hands[side][end]["x"] * 640)
                 y2 = int(hands[side][end]["y"] * 480)
-                cv2.line(frame, (x1, y1), (x2, y2), (255, 255, 255), 2)
+                cv2.line(frame, (x1, y1), (x2, y2), line_color[side], 2)
 
     cv2.rectangle(frame, (10, 10), (300, 60), (0, 0, 0), -1)
 
