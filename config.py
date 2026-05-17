@@ -10,7 +10,7 @@ DETECTION_CONFIDENCE = 0.7
 TRACKING_CONFIDENCE = 0.7
 
 #Gesture Thresholds
-FIST_THRESHOLD = 0.15
+FIST_THRESHOLD = 0.1
 PINCH_THRESHOLD = 0.08
 
 #Phone Screen (dafault, will be overwritten by calibration)
@@ -19,3 +19,4 @@ PHONE_HEIGHT = 1920
 
 #ADB
 ADB_SWIPE_DURATION = 50
+ADB_PATH = r"C:\Users\sithi\AppData\Local\platform-tools\adb.exe"
