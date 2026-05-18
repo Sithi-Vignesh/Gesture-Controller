@@ -4,14 +4,18 @@ from gestures.recognizer import GestureRecognizer
 from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
 from adb.controller import ADBController
-from config import PHONE_WIDTH ,PHONE_HEIGHT
+import json
+from config import PHONE_WIDTH, PHONE_HEIGHT
 import time
+
+with open("data/profiles/profile.json", "r") as f:
+    profile = json.load(f)
 
 detector = HandDetector()
 recognizer = GestureRecognizer()
 smoother = GestureSmoother(3)
 sm = StateMachine()
-controller = ADBController(PHONE_WIDTH ,PHONE_HEIGHT)
+controller = ADBController(PHONE_WIDTH, PHONE_HEIGHT, profile)
 
 detector.start()
 
@@ -35,16 +39,14 @@ while True:
     if not check: continue
     gestures = recognizer.recognize(hands)
 
-    if (hands["left"] is None and hands["right"] is None):
+    if hands["left"] is None and hands["right"] is None:
         stableGestures = []
     else:
         stableGestures = smoother.update(gestures)
 
-    action = sm.update(stableGestures, hands)
-    if action:
-        print(action)
+    actions = sm.update(stableGestures, hands)
+    for action in actions:
         controller.send(action)
-
 
     dot_color = {"left": (0, 255, 0), "right": (0, 255, 0)}
     line_color = {"left": (255, 255, 255), "right": (255, 255, 255)}
@@ -65,7 +67,6 @@ while True:
                 cx = int(point["x"] * 640)
                 cy = int(point["y"] * 480)
                 cv2.circle(frame, (cx, cy), 4, dot_color[side], -1)
-
             for start, end in connections:
                 x1 = int(hands[side][start]["x"] * 640)
                 y1 = int(hands[side][start]["y"] * 480)
@@ -74,11 +75,9 @@ while True:
                 cv2.line(frame, (x1, y1), (x2, y2), line_color[side], 2)
 
     cv2.rectangle(frame, (10, 10), (300, 60), (0, 0, 0), -1)
-
     curr_time = time.time()
     fps = int(1 / (curr_time - prev_time)) if (curr_time - prev_time) > 0 else 0
     prev_time = curr_time
-
     text = ", ".join(stableGestures) if stableGestures else "None"
     cv2.putText(frame, f"Gestures: {text} | FPS: {fps}", (15, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1)
 
@@ -87,4 +86,5 @@ while True:
         break
 
 detector.stop()
+controller.stop()
 cv2.destroyAllWindows()
