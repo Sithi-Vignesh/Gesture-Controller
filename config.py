@@ -20,3 +20,7 @@ PHONE_HEIGHT = 1920
 #ADB
 ADB_SWIPE_DURATION = 50
 ADB_PATH = r"C:\Users\sithi\AppData\Local\platform-tools\adb.exe"
+
+#INPUT
+MOVE_SENSITIVITY = 1500
+MAX_DRAG = 0.3

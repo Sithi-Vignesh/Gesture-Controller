@@ -3,19 +3,16 @@ from gestures.detector import HandDetector
 from gestures.recognizer import GestureRecognizer
 from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
-from adb.controller import ADBController
-import json
-from config import PHONE_WIDTH, PHONE_HEIGHT
+from input.controller import EmulatorController
 import time
 
-with open("data/profiles/profile.json", "r") as f:
-    profile = json.load(f)
 
 detector = HandDetector()
 recognizer = GestureRecognizer()
 smoother = GestureSmoother(3)
 sm = StateMachine()
-controller = ADBController(PHONE_WIDTH, PHONE_HEIGHT, profile)
+controller = EmulatorController()
+print("Controller initialized, HWND:", hex(controller._hwnd))
 
 detector.start()
 
@@ -46,6 +43,7 @@ while True:
 
     actions = sm.update(stableGestures, hands)
     for action in actions:
+        print(action)
         controller.send(action)
 
     dot_color = {"left": (0, 255, 0), "right": (0, 255, 0)}
