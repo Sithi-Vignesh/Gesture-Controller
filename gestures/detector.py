@@ -37,6 +37,7 @@ class HandDetector:
         success, frame = self._cap.read()
         if not success:
             return {"left": None, "right": None, "frame": None, "ok": False}
+        frame = cv2.flip(frame, 1)
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
         results = self._hands.detect(mp_image)
@@ -47,7 +48,7 @@ class HandDetector:
         result = {"left": None, "right": None, "frame": frame, "ok": True}
 
         for hand_landmarks, handedness in zip(results.hand_landmarks, results.handedness):
-            label = "left" if handedness[0].category_name.lower() == "left" else "right"
+            label = "right" if handedness[0].category_name.lower() == "left" else "left"
             landmarks = [{"x": lm.x, "y": lm.y, "z": lm.z} for lm in hand_landmarks]
             result[label] = landmarks
 
