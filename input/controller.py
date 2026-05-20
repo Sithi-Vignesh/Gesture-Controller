@@ -4,7 +4,7 @@ from config import MOVE_SENSITIVITY, MAX_DRAG
 
 WINDOW_TITLE = "LDPlayer"
 
-pyautogui.PAUSE = 0  # No delay between pyautogui calls
+pyautogui.PAUSE = 0
 
 DIRECTION_KEYS = {
     ( 1,  0): ['s'],
@@ -25,6 +25,7 @@ class EmulatorController:
             raise RuntimeError("LDPlayer window not found")
         win32gui.SetForegroundWindow(self._hwnd)
         self._pressed_keys = set()
+        self._drag_origin = {}
 
     def _press_key(self, key):
         if key not in self._pressed_keys:
@@ -45,13 +46,21 @@ class EmulatorController:
         sy = 0 if abs(dx) < 0.05 else (1 if dx > 0 else -1)
         return (sx, sy)
 
-    def _mouse_move(self, dx, dy):
+    def _window_center(self):
         rect = win32gui.GetWindowRect(self._hwnd)
         cx = (rect[0] + rect[2]) // 2
         cy = (rect[1] + rect[3]) // 2
+        return cx, cy
+
+    def _mouse_move(self, gesture, dx, dy):
+        if gesture not in self._drag_origin:
+            cx, cy = self._window_center()
+            pyautogui.moveTo(cx, cy)
+            self._drag_origin[gesture] = (cx, cy)
+        ox, oy = self._drag_origin[gesture]
         scale = MAX_DRAG * MOVE_SENSITIVITY
-        tx = int(cx + dx * scale)
-        ty = int(cy + dy * scale)
+        tx = int(ox + dx * scale)
+        ty = int(oy + dy * scale)
         pyautogui.moveTo(tx, ty)
 
     def _right_click_down(self, key):
@@ -80,6 +89,9 @@ class EmulatorController:
             dx = action["delta_x"]
             dy = action["delta_y"]
 
+            if abs(dx) < 0.005 and abs(dy) < 0.005:
+                return
+
             if gesture == "left_fist":
                 direction = self._get_direction(dx, dy)
                 keys = DIRECTION_KEYS.get(direction, [])
@@ -90,20 +102,28 @@ class EmulatorController:
                     self._press_key(key)
 
             elif gesture == "right_pinch":
+                if gesture not in self._drag_origin:
+                    cx, cy = self._window_center()
+                    pyautogui.moveTo(cx, cy)
                 self._right_click_down('x')
-                self._mouse_move(dx, dy)
+                self._mouse_move(gesture, dx, dy)
 
             elif gesture == "right_fist":
+                if gesture not in self._drag_origin:
+                    cx, cy = self._window_center()
+                    pyautogui.moveTo(cx, cy)
                 self._right_click_down('c')
-                self._mouse_move(dx, dy)
+                self._mouse_move(gesture, dx, dy)
 
         elif act == "drag_end":
             if gesture == "left_fist":
                 self._release_all_keys()
             elif gesture == "right_pinch":
                 self._right_click_up('x')
+                self._drag_origin.pop(gesture, None)
             elif gesture == "right_fist":
                 self._right_click_up('c')
+                self._drag_origin.pop(gesture, None)
 
     def stop(self):
         self._release_all_keys()

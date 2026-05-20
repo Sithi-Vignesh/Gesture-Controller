@@ -1,7 +1,7 @@
 #Camera
 CAMERA_INDEX = 0
-CAMERA_WIDTH = 640
-CAMERA_HEIGHT = 480
+CAMERA_WIDTH = 1280
+CAMERA_HEIGHT = 720
 FPS_TARGET = 30
 
 #MediaPipe
@@ -11,7 +11,7 @@ TRACKING_CONFIDENCE = 0.7
 
 #Gesture Thresholds
 FIST_THRESHOLD = 0.1
-PINCH_THRESHOLD = 0.08
+PINCH_THRESHOLD = 0.05
 
 #Phone Screen (dafault, will be overwritten by calibration)
 PHONE_WIDTH = 1080
@@ -22,5 +22,5 @@ ADB_SWIPE_DURATION = 50
 ADB_PATH = r"C:\Users\sithi\AppData\Local\platform-tools\adb.exe"
 
 #INPUT
-MOVE_SENSITIVITY = 1500
-MAX_DRAG = 0.3
+MOVE_SENSITIVITY = 1
+MAX_DRAG = 1500

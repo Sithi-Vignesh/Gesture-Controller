@@ -4,6 +4,7 @@ from gestures.recognizer import GestureRecognizer
 from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
 from input.controller import EmulatorController
+from config import CAMERA_WIDTH, CAMERA_HEIGHT
 import time
 
 
@@ -62,14 +63,14 @@ while True:
     for side in ["left", "right"]:
         if hands[side]:
             for point in hands[side]:
-                cx = int(point["x"] * 640)
-                cy = int(point["y"] * 480)
+                cx = int(point["x"] * CAMERA_WIDTH)
+                cy = int(point["y"] * CAMERA_HEIGHT)
                 cv2.circle(frame, (cx, cy), 4, dot_color[side], -1)
             for start, end in connections:
-                x1 = int(hands[side][start]["x"] * 640)
-                y1 = int(hands[side][start]["y"] * 480)
-                x2 = int(hands[side][end]["x"] * 640)
-                y2 = int(hands[side][end]["y"] * 480)
+                x1 = int(hands[side][start]["x"] * CAMERA_WIDTH)
+                y1 = int(hands[side][start]["y"] * CAMERA_HEIGHT)
+                x2 = int(hands[side][end]["x"] * CAMERA_WIDTH)
+                y2 = int(hands[side][end]["y"] * CAMERA_HEIGHT)
                 cv2.line(frame, (x1, y1), (x2, y2), line_color[side], 2)
 
     cv2.rectangle(frame, (10, 10), (300, 60), (0, 0, 0), -1)
