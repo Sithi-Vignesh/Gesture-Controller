@@ -17,6 +17,8 @@ DIRECTION_KEYS = {
     (-1,  1): ['w', 'd'],
 }
 
+MOVEMENT_KEYS = {'w', 'a', 's', 'd'}
+
 
 class EmulatorController:
     def __init__(self):
@@ -39,6 +41,10 @@ class EmulatorController:
 
     def _release_all_keys(self):
         for key in list(self._pressed_keys):
+            self._release_key(key)
+
+    def _release_movement_keys(self):
+        for key in MOVEMENT_KEYS:
             self._release_key(key)
 
     def _get_direction(self, dx, dy):
@@ -100,7 +106,7 @@ class EmulatorController:
                 direction = self._get_direction(dx, dy)
                 keys = DIRECTION_KEYS.get(direction, [])
                 for key in list(self._pressed_keys):
-                    if key not in keys:
+                    if key in MOVEMENT_KEYS and key not in keys:
                         self._release_key(key)
                 for key in keys:
                     self._press_key(key)
@@ -121,7 +127,7 @@ class EmulatorController:
 
         elif act == "drag_end":
             if gesture == "left_fist":
-                self._release_all_keys()
+                self._release_movement_keys()
             elif gesture == "right_pinch":
                 self._right_click_up('x')
                 self._drag_origin.pop(gesture, None)

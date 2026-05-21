@@ -22,5 +22,5 @@ ADB_SWIPE_DURATION = 50
 ADB_PATH = r"C:\Users\sithi\AppData\Local\platform-tools\adb.exe"
 
 #INPUT
-MOVE_SENSITIVITY = 1
-MAX_DRAG = 1500
+MOVE_SENSITIVITY = 3
+MAX_DRAG = 700
