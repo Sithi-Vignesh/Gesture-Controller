@@ -4,7 +4,6 @@ from gestures.recognizer import GestureRecognizer
 from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
 from input.controller import EmulatorController
-from config import CAMERA_WIDTH, CAMERA_HEIGHT
 import time
 
 
@@ -18,6 +17,9 @@ print("Controller initialized, HWND:", hex(controller._hwnd))
 detector.start()
 
 prev_time = 0
+
+DISPLAY_WIDTH = 1280
+DISPLAY_HEIGHT = 720
 
 connections = [
     (0,1),(1,2),(2,3),(3,4),
@@ -35,6 +37,9 @@ while True:
     frame = hands["frame"]
     check = hands["ok"]
     if not check: continue
+
+    frame = cv2.resize(frame, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
+
     gestures = recognizer.recognize(hands)
 
     if hands["left"] is None and hands["right"] is None:
@@ -69,14 +74,14 @@ while True:
     for side in ["left", "right"]:
         if hands[side]:
             for point in hands[side]:
-                cx = int(point["x"] * CAMERA_WIDTH)
-                cy = int(point["y"] * CAMERA_HEIGHT)
+                cx = int(point["x"] * DISPLAY_WIDTH)
+                cy = int(point["y"] * DISPLAY_HEIGHT)
                 cv2.circle(frame, (cx, cy), 4, dot_color[side], -1)
             for start, end in connections:
-                x1 = int(hands[side][start]["x"] * CAMERA_WIDTH)
-                y1 = int(hands[side][start]["y"] * CAMERA_HEIGHT)
-                x2 = int(hands[side][end]["x"] * CAMERA_WIDTH)
-                y2 = int(hands[side][end]["y"] * CAMERA_HEIGHT)
+                x1 = int(hands[side][start]["x"] * DISPLAY_WIDTH)
+                y1 = int(hands[side][start]["y"] * DISPLAY_HEIGHT)
+                x2 = int(hands[side][end]["x"] * DISPLAY_WIDTH)
+                y2 = int(hands[side][end]["y"] * DISPLAY_HEIGHT)
                 cv2.line(frame, (x1, y1), (x2, y2), line_color[side], 2)
 
     cv2.rectangle(frame, (10, 10), (300, 60), (0, 0, 0), -1)
