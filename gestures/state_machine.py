@@ -1,4 +1,4 @@
-TAP_THRESHOLD = 6  # frames
+TAP_THRESHOLD = 8
 
 
 class StateMachine:
@@ -12,6 +12,14 @@ class StateMachine:
                 return None
             return (hands["right"][8]["x"], hands["right"][8]["y"])
         elif gesture == "right_fist":
+            if hands["right"] is None:
+                return None
+            return (hands["right"][9]["x"], hands["right"][9]["y"])
+        elif gesture == "right_peace":
+            if hands["right"] is None:
+                return None
+            return (hands["right"][9]["x"], hands["right"][9]["y"])
+        elif gesture == "right_l_shape":
             if hands["right"] is None:
                 return None
             return (hands["right"][9]["x"], hands["right"][9]["y"])

@@ -84,6 +84,10 @@ class EmulatorController:
                 pyautogui.press('e')
             elif gesture == "right_fist":
                 pyautogui.press('f')
+            elif gesture == "right_peace":
+                pyautogui.press('r')
+            elif gesture == "right_l_shape":
+                pyautogui.press('q')
 
         elif act == "drag_hold":
             dx = action["delta_x"]

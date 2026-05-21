@@ -59,6 +59,12 @@ while True:
     if "right_pinch" in stableGestures:
         dot_color["right"] = (0, 0, 255)
         line_color["right"] = (0, 0, 255)
+    if "right_peace" in stableGestures:
+        dot_color["right"] = (255, 0, 255)
+        line_color["right"] = (255, 0, 255)
+    if "right_l_shape" in stableGestures:
+        dot_color["right"] = (0, 255, 0)
+        line_color["right"] = (0, 255, 0)
 
     for side in ["left", "right"]:
         if hands[side]:

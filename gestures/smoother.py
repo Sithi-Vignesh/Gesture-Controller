@@ -1,6 +1,6 @@
 from collections import deque
 
-possible = ["left_fist", "right_fist", "right_pinch"]
+possible = ["left_fist", "right_fist", "right_pinch", "right_peace", "right_l_shape"]
 
 class GestureSmoother:
     def __init__(self, window_size):
@@ -11,6 +11,6 @@ class GestureSmoother:
         stable = []
         for gesture in possible:
             x = sum(gesture in entry for entry in self._history)
-            if x > len(self._history)/2 : stable.append(gesture)
+            if x > len(self._history)/2:
+                stable.append(gesture)
         return stable
-    
