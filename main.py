@@ -49,9 +49,11 @@ while True:
 
     actions = sm.update(stableGestures, hands)
     for action in actions:
-        print(action)
+        t1 = time.time()
         controller.send(action)
-
+        t2 = time.time()
+        print(f"{action['action']} | {action['gesture']} | {(t2-t1)*1000:.1f}ms")
+        
     dot_color = {"left": (0, 255, 0), "right": (0, 255, 0)}
     line_color = {"left": (255, 255, 255), "right": (255, 255, 255)}
 

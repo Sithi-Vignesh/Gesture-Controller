@@ -1,4 +1,4 @@
-TAP_THRESHOLD = 8
+TAP_THRESHOLD = 4
 
 
 class StateMachine:
