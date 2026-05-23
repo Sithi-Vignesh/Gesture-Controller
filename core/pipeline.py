@@ -9,9 +9,6 @@ from gestures.smoother import GestureSmoother
 from gestures.state_machine import StateMachine
 from input.controller import EmulatorController
 
-
-# ─── Display config ───────────────────────────────────────────────────────────
-
 DISPLAY_WIDTH  = 1280
 DISPLAY_HEIGHT = 720
 
@@ -24,39 +21,25 @@ CONNECTIONS = [
     (5,9),(9,13),(13,17)
 ]
 
-
-# ─── Named exceptions ─────────────────────────────────────────────────────────
-
 class LDPlayerNotFoundError(Exception):
     pass
 
 class CameraNotFoundError(Exception):
     pass
 
-
-# ─── Pipeline ─────────────────────────────────────────────────────────────────
-
 class GesturePipeline:
 
     def __init__(self):
         self.on_frame: Optional[Callable] = None
-
         self._detector   = None
         self._recognizer = None
         self._smoother   = None
         self._sm         = None
         self._controller = None
-
         self._stop_event = threading.Event()
         self._thread: Optional[threading.Thread] = None
 
-    # ── public API ────────────────────────────────────────────────────────────
-
     def start(self):
-        """Initialize all components and start the loop.
-        Raises LDPlayerNotFoundError or CameraNotFoundError on failure.
-        """
-        # controller init — catches LDPlayer missing
         try:
             self._controller = EmulatorController()
         except RuntimeError:
@@ -65,7 +48,6 @@ class GesturePipeline:
                 "Please open LDPlayer 9 and launch Brawl Stars, then try again."
             )
 
-        # detector init — catches camera missing
         self._detector = HandDetector()
         try:
             self._detector.start()
@@ -95,8 +77,6 @@ class GesturePipeline:
             self._controller.stop()
             self._controller = None
 
-    # ── private loop ──────────────────────────────────────────────────────────
-
     def _loop(self):
         prev_time      = 0
         stableGestures = []
@@ -108,7 +88,6 @@ class GesturePipeline:
                 continue
 
             frame = cv2.resize(frame, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
-
             gestures = self._recognizer.recognize(hands)
 
             if hands["left"] is None and hands["right"] is None:
@@ -118,12 +97,8 @@ class GesturePipeline:
 
             actions = self._sm.update(stableGestures, hands)
             for action in actions:
-                t1 = time.time()
                 self._controller.send(action)
-                t2 = time.time()
-                print(f"{action['action']} | {action['gesture']} | {(t2-t1)*1000:.1f}ms")
 
-            # ── draw landmarks ────────────────────────────────────────────────
             dot_color  = {"left": (0, 255, 0),    "right": (0, 255, 0)}
             line_color = {"left": (255, 255, 255), "right": (255, 255, 255)}
 
@@ -146,7 +121,6 @@ class GesturePipeline:
                         y2 = int(hands[side][e]["y"] * DISPLAY_HEIGHT)
                         cv2.line(frame, (x1, y1), (x2, y2), line_color[side], 2)
 
-            # ── FPS + gesture overlay ─────────────────────────────────────────
             curr_time = time.time()
             fps       = int(1 / (curr_time - prev_time)) if (curr_time - prev_time) > 0 else 0
             prev_time = curr_time
@@ -158,6 +132,5 @@ class GesturePipeline:
                 (15, 45), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 1
             )
 
-            # ── deliver frame ─────────────────────────────────────────────────
             if self.on_frame:
                 self.on_frame(frame)

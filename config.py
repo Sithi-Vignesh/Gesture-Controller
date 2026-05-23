@@ -13,14 +13,6 @@ TRACKING_CONFIDENCE = 0.3
 FIST_THRESHOLD = 0.1
 PINCH_THRESHOLD = 0.05
 
-#Phone Screen (dafault, will be overwritten by calibration)
-PHONE_WIDTH = 1080
-PHONE_HEIGHT = 1920
-
-#ADB
-ADB_SWIPE_DURATION = 50
-ADB_PATH = r"C:\Users\sithi\AppData\Local\platform-tools\adb.exe"
-
 #INPUT
 MOVE_SENSITIVITY = 3
 MAX_DRAG = 700
