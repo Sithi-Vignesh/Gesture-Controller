@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 from mediapipe.tasks import python as mp_python
 from mediapipe.tasks.python import vision
+from config import resource_path
 
 from config import (
     CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT,FPS_TARGET, MAX_HANDS, DETECTION_CONFIDENCE, TRACKING_CONFIDENCE
@@ -11,7 +12,7 @@ class HandDetector:
     def __init__(self):
         self._cap = cv2.VideoCapture(CAMERA_INDEX) #private variables
         base_options = mp_python.BaseOptions(
-            model_asset_path="assets/hand_landmarker.task"
+            model_asset_path=resource_path("assets/hand_landmarker.task")
         )
         options = vision.HandLandmarkerOptions(
             base_options=base_options,

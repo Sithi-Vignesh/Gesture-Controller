@@ -1,3 +1,12 @@
+import os
+import sys
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
 #Camera
 CAMERA_INDEX = 0
 CAMERA_WIDTH = 1920

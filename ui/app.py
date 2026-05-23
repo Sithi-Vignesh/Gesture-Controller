@@ -15,12 +15,12 @@ from PyQt6.QtCore import (
 from PyQt6.QtGui import QImage, QPixmap
 
 from core.pipeline import GesturePipeline, LDPlayerNotFoundError, CameraNotFoundError
+from config import resource_path
 
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 
-BASE_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ASSETS_DIR = os.path.join(BASE_DIR, "assets", "gestures")
+ASSETS_DIR = resource_path(os.path.join("assets", "gestures"))
 
 
 # ─── Gesture data ─────────────────────────────────────────────────────────────
