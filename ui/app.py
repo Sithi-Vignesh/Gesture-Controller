@@ -15,6 +15,7 @@ from PyQt6.QtCore import (
 from PyQt6.QtGui import QImage, QPixmap
 
 from core.pipeline import GesturePipeline, LDPlayerNotFoundError, CameraNotFoundError
+from PyQt6.QtGui import QIcon
 from config import resource_path
 
 
@@ -371,6 +372,7 @@ class ErrorDialog(QDialog):
 class GestureApp(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setWindowIcon(QIcon(resource_path('icon.png')))
         self.setWindowTitle("Gesture Controller")
         self.setMinimumSize(960, 640)
 
