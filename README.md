@@ -96,9 +96,9 @@ Open LDPlayer → **Keyboard Control** → assign the keys above to the correspo
 
 ## Roadmap
 
-- **V1** ✅ — 7 gestures, LDPlayer input, Windows installer
-- **V2** — WiFi ADB support, device profiles, cloud config via Supabase
-- **V3** — Fully on-device Android, no PC or ADB required
+- **V1** ✅ — 7 gestures, Brawl Stars support, Windows installer
+- **V2** — Multi-game support: Clash of Clans, NFS, and more — each with their own gesture profile. Game selector built into the UI.
+- **V3** — Universal mode: use gestures for any app on your PC — casual browsing, media control, full gesture-as-keyboard/mouse
 
 ---
 
