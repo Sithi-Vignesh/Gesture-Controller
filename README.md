@@ -34,7 +34,7 @@ Gesture Controller uses your webcam to detect hand gestures in real time and map
 | Fist tap | Right | Instant super (F) |
 | Fist + drag | Right | Aimed super (C + mouse aim) |
 | Peace sign ✌️ | Right | Hypercharge (R) |
-| L-shape 🤙 | Right | Gadget (Q) |
+| L-shape 👆 | Right | Gadget (Q) |
 
 ---
 
