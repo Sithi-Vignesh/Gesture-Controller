@@ -100,7 +100,7 @@ Open LDPlayer → **Keyboard Control** → assign the keys above to the correspo
 
 - **V1** ✅ — 7 gestures, Brawl Stars support, Windows installer
 - **V2** — Multi-game support: Clash of Clans, NFS, and more — each with their own gesture profile. Game selector built into the UI.
-- **V3** — Universal mode: use gestures for any app on your PC — casual browsing, media control, full gesture-as-keyboard/mouse
+- **V3** — Classified
 
 ---
 
