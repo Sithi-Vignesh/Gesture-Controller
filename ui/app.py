@@ -17,6 +17,7 @@ from PyQt6.QtGui import QImage, QPixmap
 from core.pipeline import GesturePipeline, LDPlayerNotFoundError, CameraNotFoundError
 from PyQt6.QtGui import QIcon
 from config import resource_path
+from ui.pip_window import PiPWindow
 
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
@@ -279,6 +280,7 @@ class GestureCard(QWidget):
         self._dots.set_current(self._current)
 
 
+
 # ─── Feed widget ──────────────────────────────────────────────────────────────
 
 class FeedWidget(QWidget):
@@ -379,6 +381,7 @@ class GestureApp(QMainWindow):
         self._pipeline         = None
         self._accepting_frames = False
         self._guide_open       = False
+        self._pip = None
 
         self._bridge = FrameBridge()
         self._bridge.frame_ready.connect(self._update_frame)
@@ -509,6 +512,20 @@ class GestureApp(QMainWindow):
             }
         """)
 
+    def _show_pip(self):
+        self._pip = PiPWindow()
+        self._pip.expand_clicked.connect(self._hide_pip)
+        self._bridge.frame_ready.disconnect()
+        self._bridge.frame_ready.connect(self._pip.update_frame)
+        self._pip.show()
+
+    def _hide_pip(self):
+        self._bridge.frame_ready.disconnect()
+        self._bridge.frame_ready.connect(self._update_frame)
+        self._pip.close()
+        self._pip = None
+        self.showNormal()
+
     def _blink_dot(self):
         self._dot_visible = not self._dot_visible
         self._dot.setStyleSheet(
@@ -607,6 +624,15 @@ class GestureApp(QMainWindow):
             self._accepting_frames = False
             self._pipeline.stop()
         event.accept()
+
+    def changeEvent(self, event):
+        from PyQt6.QtCore import QEvent
+        if event.type() == QEvent.Type.WindowStateChange:
+            if self.isMinimized() and self._pipeline is not None:
+                event.ignore()
+                self.hide()
+                self._show_pip()
+        super().changeEvent(event)
 
 
 # ─── Entry ────────────────────────────────────────────────────────────────────

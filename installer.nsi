@@ -6,7 +6,7 @@
 
 !define APP_NAME        "GestureController"
 !define APP_DISPLAY     "Gesture Controller"
-!define APP_VERSION     "1.0.1"
+!define APP_VERSION     "1.1.0"
 !define APP_PUBLISHER   "Sithi Vignesh"
 !define APP_EXE         "GestureController.exe"
 !define INSTALL_DIR     "$PROGRAMFILES64\${APP_NAME}"
