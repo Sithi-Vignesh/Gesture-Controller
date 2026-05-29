@@ -7,6 +7,7 @@ a = Analysis(
     pathex=[],
     binaries=collect_dynamic_libs('mediapipe'),
     datas=[
+        ("style.qss", "."),
         ('assets/gestures/*.png', 'assets/gestures'),
         ('assets/hand_landmarker.task', 'assets'),
         ('icon.png', '.'),

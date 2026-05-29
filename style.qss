@@ -1,0 +1,179 @@
+/* === BASE === */ 
+QMainWindow, QWidget#centralWidget { 
+    background-color: #0A0A0A; 
+    color: #F5F5F5; 
+    font-family: "DM Sans"; 
+} 
+ 
+/* === CUSTOM TITLE BAR === */ 
+QWidget#titleBar { 
+    background-color: #0A0A0A; 
+    border-bottom: 1px solid rgba(255, 230, 0, 0.12); 
+    min-height: 40px; 
+    max-height: 40px; 
+} 
+
+QLabel#appTitleAccent { 
+    font-family: "Bebas Neue"; 
+    font-size: 16px; 
+    color: #FFE600;
+} 
+ 
+QLabel#appTitle { 
+    font-family: "Bebas Neue"; 
+    font-size: 16px; 
+    color: #F5F5F5;
+} 
+ 
+QPushButton#btnMinimize, 
+QPushButton#btnMaximize, 
+QPushButton#btnClose { 
+    background: transparent; 
+    border: none; 
+    color: #888888; 
+    font-size: 14px; 
+    padding: 4px 10px; 
+    min-width: 32px; 
+} 
+QPushButton#btnMinimize:hover, 
+QPushButton#btnMaximize:hover { color: #F5F5F5; } 
+QPushButton#btnClose:hover { color: #FF4444; } 
+ 
+/* === CAMERA FEED === */ 
+QLabel#cameraFeed { 
+    background-color: #0A0A0A; 
+} 
+
+QLabel#idleText {
+    font-family: "JetBrains Mono";
+    font-size: 13px;
+    color: #333333;
+    letter-spacing: 2px;
+}
+ 
+/* === STATUS BAR === */ 
+QWidget#statusBar { 
+    background-color: #141414; 
+    border-top: 1px solid rgba(255, 230, 0, 0.08); 
+    min-height: 28px; 
+    max-height: 28px; 
+} 
+QLabel#statusLabel { 
+    font-family: "JetBrains Mono"; 
+    font-size: 11px; 
+    color: #888888; 
+    padding-left: 16px; 
+} 
+ 
+/* === BOTTOM BAR === */ 
+QWidget#bottomBar { 
+    background-color: #0A0A0A; 
+    border-top: 1px solid rgba(255, 230, 0, 0.12); 
+    min-height: 72px; 
+    max-height: 72px; 
+} 
+ 
+/* === START BUTTON === */ 
+QPushButton#btnStart { 
+    background-color: #FFE600; 
+    color: #0A0A0A; 
+    font-family: "Bebas Neue"; 
+    font-size: 20px; 
+    letter-spacing: 2px; 
+    border: none; 
+    border-radius: 10px; 
+    min-height: 48px; 
+    margin: 0px 16px;
+} 
+QPushButton#btnStart:hover { 
+    background-color: #FFF000; 
+} 
+QPushButton#btnStart:pressed { 
+    background-color: #E6CF00; 
+} 
+ 
+/* === STOP BUTTON === */ 
+QPushButton#btnStop { 
+    background-color: #1E1E1E; 
+    color: #FF4444; 
+    font-family: "Bebas Neue"; 
+    font-size: 20px; 
+    letter-spacing: 2px; 
+    border: 1px solid rgba(255, 68, 68, 0.4); 
+    border-radius: 10px; 
+    min-height: 48px; 
+    margin: 0px 16px;
+} 
+QPushButton#btnStop:hover { 
+    background-color: #2A1414; 
+    border: 1px solid rgba(255, 68, 68, 0.8); 
+} 
+QPushButton#btnStop:pressed { 
+    background-color: #221010; 
+} 
+ 
+/* === HUD CHIPS (overlaid on camera feed) === */ 
+QLabel#hudLive, 
+QLabel#hudFps { 
+    background-color: rgba(10, 10, 10, 0.75); 
+    border: 1px solid rgba(255, 230, 0, 0.2); 
+    border-radius: 6px; 
+    font-family: "JetBrains Mono"; 
+    font-size: 11px; 
+    padding: 6px 10px; 
+} 
+QLabel#hudLive { 
+    color: #FFE600; 
+} 
+QLabel#hudFps { 
+    color: #888888; 
+} 
+
+QLabel#hudGesture { 
+    background-color: rgba(10, 10, 10, 0.8); 
+    border: 1px solid rgba(255, 230, 0, 0.15); 
+    border-radius: 6px; 
+    font-family: "Syne"; 
+    font-size: 13px; 
+    font-weight: bold;
+    color: #F5F5F5; 
+    padding: 6px 10px; 
+} 
+ 
+/* === PiP WINDOW === */ 
+QWidget#pipWindow { 
+    background-color: #0A0A0A; 
+    border: 1px solid rgba(255, 230, 0, 0.3); 
+    border-radius: 10px; 
+} 
+QWidget#pipTopBar, 
+QWidget#pipBottomBar { 
+    background-color: rgba(10, 10, 10, 0.85); 
+} 
+QWidget#pipTopBar {
+    padding: 4px 8px;
+}
+QLabel#pipLive { 
+    font-family: "JetBrains Mono"; 
+    font-size: 10px; 
+    color: #FFE600; 
+} 
+QLabel#pipFps { 
+    font-family: "JetBrains Mono"; 
+    font-size: 10px; 
+    color: #666666; 
+} 
+QLabel#pipGesture { 
+    font-family: "Syne"; 
+    font-size: 11px; 
+    color: #F5F5F5; 
+} 
+QPushButton#pipExpand { 
+    background: transparent; 
+    border: none; 
+    color: #888888; 
+    font-size: 14px; 
+} 
+QPushButton#pipExpand:hover { 
+    color: #FFE600; 
+}
