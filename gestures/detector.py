@@ -5,12 +5,13 @@ from mediapipe.tasks.python import vision
 from config import resource_path
 
 from config import (
-    CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT,FPS_TARGET, MAX_HANDS, DETECTION_CONFIDENCE, TRACKING_CONFIDENCE
+    CAMERA_INDEX, CAMERA_WIDTH, CAMERA_HEIGHT, FPS_TARGET, MAX_HANDS,
+    DETECTION_CONFIDENCE, TRACKING_CONFIDENCE, HANDEDNESS_CONFIDENCE
 )
 
 class HandDetector:
     def __init__(self):
-        self._cap = cv2.VideoCapture(CAMERA_INDEX) #private variables
+        self._cap = cv2.VideoCapture(CAMERA_INDEX)
         base_options = mp_python.BaseOptions(
             model_asset_path=resource_path("assets/hand_landmarker.task")
         )
@@ -28,11 +29,10 @@ class HandDetector:
         self._cap.set(cv2.CAP_PROP_FPS, FPS_TARGET)
         if not self._cap.isOpened():
             raise RuntimeError("Cannot open camera. Check if another app is using it.")
-        
+
     def stop(self):
         self._cap.release()
         self._hands.close()
-
 
     def read(self):
         success, frame = self._cap.read()
@@ -45,13 +45,15 @@ class HandDetector:
 
         if not results.hand_landmarks:
             return {"left": None, "right": None, "frame": frame, "ok": True}
-        
+
         result = {"left": None, "right": None, "frame": frame, "ok": True}
 
         for hand_landmarks, handedness in zip(results.hand_landmarks, results.handedness):
+            score = handedness[0].score
+            if score < HANDEDNESS_CONFIDENCE:
+                continue
             label = "right" if handedness[0].category_name.lower() == "left" else "left"
             landmarks = [{"x": lm.x, "y": lm.y, "z": lm.z} for lm in hand_landmarks]
             result[label] = landmarks
 
         return result
-    

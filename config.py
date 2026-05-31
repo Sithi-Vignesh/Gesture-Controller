@@ -6,7 +6,6 @@ def resource_path(relative_path):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
-
 #Camera
 CAMERA_INDEX = 0
 CAMERA_WIDTH = 1920
@@ -17,10 +16,14 @@ FPS_TARGET = 30
 MAX_HANDS = 2
 DETECTION_CONFIDENCE = 0.5
 TRACKING_CONFIDENCE = 0.3
+HANDEDNESS_CONFIDENCE = 0.75
 
 #Gesture Thresholds
 FIST_THRESHOLD = 0.1
 PINCH_THRESHOLD = 0.05
+TAP_THRESHOLD = 4
+RELEASE_THRESHOLD = 1
+MIN_DRAG_DISPLACEMENT = 0.04
 
 #INPUT
 MOVE_SENSITIVITY = 3

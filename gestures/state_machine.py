@@ -1,4 +1,4 @@
-TAP_THRESHOLD = 4
+from config import TAP_THRESHOLD, RELEASE_THRESHOLD, MIN_DRAG_DISPLACEMENT
 
 
 class StateMachine:
@@ -31,49 +31,49 @@ class StateMachine:
     def update(self, stableGestures, hands):
         actions = []
 
-        # Handle active and new gestures
         for gesture in stableGestures:
             pos = self._get_position(hands, gesture)
             if pos is None:
                 continue
 
-            # Reset release counter since gesture is present
             self._release_counter.pop(gesture, None)
 
             if gesture not in self._active:
-                # First frame — register neutral position, start frame count
                 self._active[gesture] = {
                     "neutral_x": pos[0],
                     "neutral_y": pos[1],
-                    "frames": 1
+                    "frames": 1,
+                    "is_drag": False
                 }
             else:
                 self._active[gesture]["frames"] += 1
                 frames = self._active[gesture]["frames"]
 
                 if frames > TAP_THRESHOLD:
-                    # It's a drag
                     delta_x = pos[0] - self._active[gesture]["neutral_x"]
                     delta_y = pos[1] - self._active[gesture]["neutral_y"]
-                    actions.append({
-                        "action": "drag_hold",
-                        "gesture": gesture,
-                        "delta_x": delta_x,
-                        "delta_y": delta_y
-                    })
+                    displacement = (delta_x**2 + delta_y**2) ** 0.5
 
-        # Handle gestures not seen this frame
+                    if displacement >= MIN_DRAG_DISPLACEMENT:
+                        self._active[gesture]["is_drag"] = True
+                        actions.append({
+                            "action": "drag_hold",
+                            "gesture": gesture,
+                            "delta_x": delta_x,
+                            "delta_y": delta_y
+                        })
+
         for gesture in list(self._active.keys()):
             if gesture not in stableGestures:
                 self._release_counter[gesture] = self._release_counter.get(gesture, 0) + 1
 
-                if self._release_counter[gesture] >= TAP_THRESHOLD:
-                    # Confirmed release
-                    frames_held = self._active[gesture]["frames"]
-                    if frames_held <= TAP_THRESHOLD:
-                        actions.append({"action": "tap", "gesture": gesture})
-                    else:
+                if self._release_counter[gesture] >= RELEASE_THRESHOLD:
+                    was_drag = self._active[gesture]["is_drag"]
+
+                    if was_drag:
                         actions.append({"action": "drag_end", "gesture": gesture})
+                    else:
+                        actions.append({"action": "tap", "gesture": gesture})
 
                     del self._active[gesture]
                     del self._release_counter[gesture]
