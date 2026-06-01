@@ -1,5 +1,4 @@
 # Gesture Controller
-
 🌐 **[Visit the website](https://gesture-controller-site.vercel.app)**
 
 **Play Brawl Stars with your hands. No touch, no keyboard, no controller.**
@@ -10,7 +9,7 @@ Gesture Controller uses your webcam to detect hand gestures in real time and map
 
 ## Demo
 
-> 🎥 *Demo GIF coming soon*
+▶️ **[Watch the trailer on YouTube](https://youtu.be/CfgHk3Tt3hw)**
 
 ---
 
@@ -20,6 +19,7 @@ Gesture Controller uses your webcam to detect hand gestures in real time and map
 - **Real-time detection** at 30 FPS with sub-20ms input latency
 - **Tap vs. drag intelligence** — the system distinguishes between a quick tap and a held drag, so accidental triggers are virtually eliminated
 - **8-directional movement** including diagonals
+- **Picture-in-Picture webcam feed** — see your hand tracking live while you play
 - **One-click Windows installer** — no Python, no terminal required
 
 ---
@@ -76,7 +76,7 @@ Open LDPlayer → **Keyboard Control** → assign the keys above to the correspo
 ## How to Use
 
 1. Open LDPlayer and launch Brawl Stars
-2. Open **Gesture Controller** — the camera feed will appear
+2. Open **Gesture Controller** — the camera feed will appear in a Picture-in-Picture window
 3. Position yourself so both hands are clearly visible in frame
 4. Enter a match and start gesturing
 
@@ -98,9 +98,9 @@ Open LDPlayer → **Keyboard Control** → assign the keys above to the correspo
 
 ## Roadmap
 
-- **V1** ✅ — 7 gestures, Brawl Stars support, Windows installer
-- **V2** — Multi-game support: Clash of Clans, NFS, and more — each with their own gesture profile. Game selector built into the UI.
-- **V3** — Classified
+- **V1** ✅ — 7 gestures, Brawl Stars support, PiP feed, Windows installer
+- **V2** — Multi-game support: Clash of Clans, NFS, and more — each with their own gesture profile. Game selector built into the UI. Cloud sync.
+- **V3** — Classified 🔒
 
 ---
 
